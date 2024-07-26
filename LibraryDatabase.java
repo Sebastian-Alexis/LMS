@@ -9,6 +9,12 @@ public class LibraryDatabase {
     private static final String URL = "jdbc:sqlite:library.db";
 
     public LibraryDatabase() {
+        try {
+            // Load the SQLite JDBC driver
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         createTables();
     }
 
