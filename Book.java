@@ -11,6 +11,13 @@ public class Book {
         this.pagesRead = 0;
     }
 
+    public Book(String title, String author, int totalPages, int pagesRead) {
+        this.title = title;
+        this.author = author;
+        this.totalPages = totalPages;
+        this.pagesRead = pagesRead;
+    }
+
     public String getTitle() {
         return title;
     }

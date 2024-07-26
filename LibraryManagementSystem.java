@@ -5,12 +5,6 @@ public class LibraryManagementSystem {
         Library library = new Library();
         Scanner scanner = new Scanner(System.in);
 
-        // Sample books
-        Book book1 = new Book("Java Programming", "John Doe", 500);
-        Book book2 = new Book("Data Structures", "Jane Smith", 300);
-        library.addBook(book1);
-        library.addBook(book2);
-
         while (true) {
             System.out.println("\nPersonal Library Management System");
             System.out.println("1. Add a book");

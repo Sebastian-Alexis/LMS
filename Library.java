@@ -1,53 +1,64 @@
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Library {
-    private ArrayList<Book> books;
+    private LibraryDatabase database;
 
     public Library() {
-        books = new ArrayList<>();
+        database = new LibraryDatabase();
     }
 
     public void addBook(Book book) {
-        books.add(book);
+        database.addBook(book);
+    }
+
+    public void addMember(Member member) {
+        database.addMember(member);
     }
 
     public void readBook(String bookTitle, int pages) {
-        Book book = getBookByTitle(bookTitle);
+        Book book = database.getBookByTitle(bookTitle);
         if (book != null) {
             book.readPages(pages);
+            database.updateBookPagesRead(bookTitle, book.getPagesRead());
             System.out.println("You read " + pages + " pages of \"" + book.getTitle() + "\".");
         } else {
             System.out.println("Book not found.");
         }
     }
 
-    private Book getBookByTitle(String title) {
-        for (Book book : books) {
-            if (book.getTitle().equals(title)) {
-                return book;
-            }
-        }
-        return null;
-    }
-
     public void displayBooks() {
-        for (Book book : books) {
-            book.displayInfo();
-        }
+        database.displayBooks();
     }
 
     public int getTotalPagesRead() {
+        String sql = "SELECT SUM(pagesRead) AS totalPagesRead FROM books";
         int totalPagesRead = 0;
-        for (Book book : books) {
-            totalPagesRead += book.getPagesRead();
+        try (Connection conn = database.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                totalPagesRead = rs.getInt("totalPagesRead");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return totalPagesRead;
     }
 
     public int getTotalPagesInLibrary() {
+        String sql = "SELECT SUM(totalPages) AS totalPages FROM books";
         int totalPages = 0;
-        for (Book book : books) {
-            totalPages += book.getTotalPages();
+        try (Connection conn = database.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+                totalPages = rs.getInt("totalPages");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return totalPages;
     }
