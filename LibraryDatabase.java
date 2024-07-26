@@ -13,6 +13,7 @@ public class LibraryDatabase {
             // Load the SQLite JDBC driver
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
+            System.err.println("Failed to load SQLite JDBC driver");
             e.printStackTrace();
         }
         createTables();
@@ -34,6 +35,7 @@ public class LibraryDatabase {
                                       + "name TEXT NOT NULL)";
             stmt.execute(createMembersTable);
         } catch (SQLException e) {
+            System.err.println("Failed to create tables");
             e.printStackTrace();
         }
     }
@@ -52,6 +54,7 @@ public class LibraryDatabase {
             pstmt.setInt(4, book.getPagesRead());
             pstmt.executeUpdate();
         } catch (SQLException e) {
+            System.err.println("Failed to add book");
             e.printStackTrace();
         }
     }
@@ -63,6 +66,7 @@ public class LibraryDatabase {
             pstmt.setString(1, member.getName());
             pstmt.executeUpdate();
         } catch (SQLException e) {
+            System.err.println("Failed to add member");
             e.printStackTrace();
         }
     }
@@ -75,6 +79,7 @@ public class LibraryDatabase {
             pstmt.setString(2, title);
             pstmt.executeUpdate();
         } catch (SQLException e) {
+            System.err.println("Failed to update book pages read");
             e.printStackTrace();
         }
     }
@@ -89,6 +94,7 @@ public class LibraryDatabase {
                 return new Book(rs.getString("title"), rs.getString("author"), rs.getInt("totalPages"), rs.getInt("pagesRead"));
             }
         } catch (SQLException e) {
+            System.err.println("Failed to get book by title");
             e.printStackTrace();
         }
         return null;
@@ -104,6 +110,7 @@ public class LibraryDatabase {
                 book.displayInfo();
             }
         } catch (SQLException e) {
+            System.err.println("Failed to display books");
             e.printStackTrace();
         }
     }

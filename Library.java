@@ -43,6 +43,7 @@ public class Library {
                 totalPagesRead = rs.getInt("totalPagesRead");
             }
         } catch (SQLException e) {
+            System.err.println("Failed to get total pages read");
             e.printStackTrace();
         }
         return totalPagesRead;
@@ -58,6 +59,7 @@ public class Library {
                 totalPages = rs.getInt("totalPages");
             }
         } catch (SQLException e) {
+            System.err.println("Failed to get total pages in library");
             e.printStackTrace();
         }
         return totalPages;
